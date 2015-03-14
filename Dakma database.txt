@@ -1,0 +1,139 @@
+drop database dakma;
+create database dakma;
+use dakma;
+
+create table school(
+	schoolId varchar(100)not null,
+	schoolName varchar(100) not null,
+	distric varchar(50)not null,
+	constraint primary key(schoolId)
+)engine=innodb;
+
+create table subject(
+	subjectName varchar(100)not null,
+	fee varchar(20),
+	dateOfWeek varchar(100),
+	duration varchar(100)not null,
+	constraint primary key(subjectName)
+)engine=innodb;
+
+create table student(
+	indexNo varchar(100)not null,
+	nic varchar(20)not null,
+	studentName varchar(100)not null,
+	dateOfAdd date,
+	Address varchar(100),
+	dateOfBirth date not null,
+	schoolId varchar(100),
+	mobileNum varchar(100),
+	homeNum varchar(100),
+	gender varchar(20)not null,
+	distric varchar(10)not null,
+	class varchar(20)not null,
+	subjectName varchar(20)not null,
+	constraint primary key(indexNo),
+	constraint foreign key(schoolId)references school(schoolId)on delete cascade on update cascade,
+	constraint foreign key(subjectName)references subject(subjectName)on delete cascade on update cascade 
+)engine=innodb;
+
+create table mother(
+	indexNo varchar(100)not null,
+	motherName varchar(200),
+	occupation varchar(100),
+	officeAddress varchar(100),
+	mobileNum varchar(10),
+	officeNum varchar(10),
+	constraint primary key(indexNo),
+	constraint foreign key(indexNo)references student(indexNo)
+)engine=innodb;
+
+create table father(
+	indexNo varchar(100)not null,
+	fatherName varchar(200),
+	occupation varchar(100),
+	officeAddress varchar(100),
+	mobileNum varchar(10),
+	officeNum varchar(10),
+	constraint primary key(indexNo),
+	constraint foreign key(indexNo)references student(indexNo)
+)engine=innodb;
+
+create table guardian(
+	indexNo varchar(100)not null,
+	guardianName varchar(200),
+	occupation varchar(100),
+	officeAddress varchar(100),
+	mobileNum varchar(10),
+	officeNum varchar(10),
+	constraint primary key(indexNo),
+	constraint foreign key(indexNo)references student(indexNo)
+)engine=innodb;
+
+create table teacher(
+	teacherId varchar(10)not null,
+	nic varchar(20)not null,
+	teacherName varchar(200),
+	address varchar(100),
+	subjectName varchar(100),
+	mobileNum int(10),
+	homeNum int(10),
+	gender varchar(20)not null,
+	age int(10)not null,
+	constraint primary key(teacherId),
+	constraint foreign key(subjectName)references subject(subjectName)on delete cascade on update cascade
+)engine=innodb;
+
+create table test(
+	testId varchar(100)not null,
+	Date date not null,
+	duration varchar(10)not null,
+	testType varchar(10)not null,
+	classes varchar(20)not null,
+	subjectName varchar(20)not null,
+	constraint primary key(testId),
+	constraint foreign key(subjectName)references subject(subjectName)on delete cascade on update cascade	
+)engine=innodb;
+
+create table testMarks(
+	testId varchar(100)not null,
+	indexNo varchar(100)not null,
+	marks int,
+	constraint primary key(testId,indexNo),
+	constraint foreign key(testId)references test(testId)on delete cascade on update cascade,
+	constraint foreign key(indexNo)references student(indexNo)on delete cascade on update cascade
+)engine=innodb;
+
+create table attendence(
+	date varchar(100),
+	indexNo varchar(20)not null,
+	time varchar(50),
+	clz varchar(50),
+	subjectName varchar(100),
+	attend varchar(100),
+	district varchar(100),
+	constraint primary key(indexNo,subjectName),
+	constraint foreign key(subjectName)references subject(subjectName)on delete cascade on update cascade,
+	constraint foreign key(indexNo)references student(indexNo)on delete cascade on update cascade
+)engine=innodb;
+
+create table payments(
+	month varchar(100),
+	indexNo varchar(20)not null,
+	clz varchar(50),
+	subjectName varchar(100),
+	payment varchar(50),
+	constraint primary key(indexNo,subjectName,clz,month),
+	constraint foreign key(subjectName)references subject(subjectName)on delete cascade on update cascade,
+	constraint foreign key(indexNo)references student(indexNo)on delete cascade on update cascade
+)engine=innodb;
+
+
+create table user(
+	userName varchar(50),
+	password varchar(200),
+	privilage int,
+	constraint primary key(userName)
+)engine=innodb;
+
+
+
